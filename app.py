@@ -1,4 +1,5 @@
 import faiss
+from langchain_community.vectorstores import FAISS
 import numpy as np
 import openai
 import pyodbc
