@@ -21,7 +21,7 @@ openai.api_key = API_KEY
 
 # Function to connect to MS SQL Server and fetch schema
 def fetch_schema_from_mssql(server, database, user, password):
-    conn = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={user};PWD={password}')
+    conn = pyodbc.connect(f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={user};PWD={password};Timeout=60')
     cursor = conn.cursor()
 
     schema = {}
