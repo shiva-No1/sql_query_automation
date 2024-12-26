@@ -8,7 +8,6 @@ openpyxl
 tiktoken
 numpy
 pyodbc
-json
 scikit-learn
 
 
