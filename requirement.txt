@@ -1,0 +1,9 @@
+faiss-cpu
+numpy
+openai
+pyodbc
+json
+langchain
+scikit-learn
+streamlit
+
