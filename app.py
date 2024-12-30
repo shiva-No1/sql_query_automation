@@ -12,11 +12,11 @@ from sklearn.preprocessing import normalize
 import streamlit as st
 
 # Set up OpenAI API key
-server = st.secrets["server"]
-database = st.secrets["database"]
-user = st.secrets["user"]
-password = st.secrets["password"]
-API_KEY = st.secrets["API_KEY"]
+# server = st.secrets["server"]
+# database = st.secrets["database"]
+# user = st.secrets["user"]
+# password = st.secrets["password"]
+# API_KEY = st.secrets["API_KEY"]
 openai.api_key = API_KEY
 
 # Function to connect to MS SQL Server and fetch schema
