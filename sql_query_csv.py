@@ -107,9 +107,9 @@ def get_relevant_db_table(user_query, schema_chunk):
 # Generate SQL query using LLM
 def generate_sql_query(metadata, user_question, db_name):
     prompt_template = """
-    You are a highly skilled SQL expert. Using the provided metadata, generate an SQL query that answers the user's question.
+    You are a highly skilled MS SQL expert. Using the provided metadata, generate an MS SQL query that answers the user's question.
     If the query spans multiple tables, include the appropriate JOINs and explain any assumptions.
-    Before the SQL query, always include 'USE {db_name};' to specify the database to use.
+    Before the MS SQL query, always include 'USE {db_name};' to specify the database to use.
 
     Metadata:
     {metadata}
