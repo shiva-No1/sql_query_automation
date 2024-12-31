@@ -11,7 +11,7 @@ import streamlit as st
 import io
 
 # Set up OpenAI API key
-openai.api_key = st.secrets ["API_KEY"]
+openai.api_key = st.secrets["API_KEY"]
 
 # Function to load schema from uploaded CSV
 def csv_to_dict(csv_file):
@@ -47,16 +47,18 @@ def chunk_schema(schema):
 # Store schema chunks in FAISS
 def store_schema_in_faiss(schema_chunks):
     embeddings = generate_embeddings(schema_chunks)
-    normalized_embeddings = normalize(np.array(embeddings))
-    dimension = len(normalized_embeddings[0])
-    index = faiss.IndexFlatIP(dimension)
-    index.add(normalized_embeddings)
+    embeddings = np.array(embeddings, dtype=np.float32)  # Ensure correct dtype
+    normalized_embeddings = normalize(embeddings)  # Normalize embeddings
+    dimension = len(normalized_embeddings[0])  # Get the embedding dimension
+    index = faiss.IndexFlatIP(dimension)  # Use inner product as the distance measure
+    index.add(normalized_embeddings)  # Add the normalized embeddings to the index
     return index, schema_chunks
 
 # Query the FAISS index for relevant schema
 def query_faiss_index(query, index, schema_chunks, top_k=5):
     query_embedding = generate_embeddings([query])
-    query_embedding = normalize(np.array(query_embedding))
+    query_embedding = np.array(query_embedding, dtype=np.float32)  # Ensure correct dtype
+    query_embedding = normalize(query_embedding)  # Normalize query
     distances, indices = index.search(query_embedding, top_k)
     relevant_chunks = [schema_chunks[idx] for idx in indices[0]]
     return "\n\n".join(relevant_chunks)
@@ -140,7 +142,9 @@ def process_query(schema, user_question):
     db_name, table_names = get_relevant_db_table(user_question, relevant_schema_chunk)
     print(f"Identified Database: {db_name}, Table(s): {table_names}")
     try:
-        metadata = {table_name: schema[db_name][table_name] for table_name in table_names.split(", ")}
+        # Ensure that table_names is a comma-separated list
+        table_names_list = table_names.split(", ")
+        metadata = {table_name: schema[db_name][table_name] for table_name in table_names_list}
     except KeyError as e:
         st.error(f"Error finding metadata: {e}")
         return None
